@@ -13,7 +13,7 @@ class PetsController extends Controller
                 'name' => 'Dog'
             ],
             [
-                'id' => 1,
+                'id' => 2,
                 'name' => 'Cat'
             ]
         ];

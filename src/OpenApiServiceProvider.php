@@ -4,10 +4,15 @@ namespace Mdwheele\OpenApi;
 
 use cebe\openapi\Reader;
 use cebe\openapi\spec\OpenApi;
+use cebe\openapi\spec\Operation;
 use cebe\openapi\SpecObjectInterface;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
+use Mdwheele\OpenApi\Exceptions\OpenApiException;
+use Mdwheele\OpenApi\Http\Middleware\ValidateOpenApi;
+use ReflectionException;
 
-class OpenApiProvider extends ServiceProvider
+class OpenApiServiceProvider extends ServiceProvider
 {
 
     /**
@@ -17,7 +22,7 @@ class OpenApiProvider extends ServiceProvider
 
     public function register()
     {
-        $this->openapi = Reader::readFromYamlFile('/app/api/openapi.yaml');
+        $this->openapi = Reader::readFromYamlFile(config('openapi.spec'));
         $this->app->instance(OpenApi::class, $this->openapi);
     }
 
@@ -51,7 +56,7 @@ class OpenApiProvider extends ServiceProvider
 
     private function getMappedAction(Operation $operation)
     {
-        if (!$operation->operationId) {
+        if ($operation->operationId === null) {
             throw new OpenApiException('All operations must have an `operationId`.');
         }
 

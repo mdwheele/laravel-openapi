@@ -1,3 +1,4 @@
+
 openapi: "3.0.0"
 info:
   version: 1.0.0
@@ -11,12 +12,11 @@ servers:
         default: localhost
       basePath:
         default: api
-
 paths:
   /pets:
     get:
       summary: List all pets
-      operationId: App\Http\Controllers\PetsController@index
+      operationId: Mdwheele\OpenApi\Tests\Controllers\PetsController@index
       tags:
         - pets
       parameters:
@@ -27,21 +27,14 @@ paths:
           schema:
             type: integer
             format: int32
-      requestBody:
-        required: true
-        content:
-          'application/json':
-            schema:
-              type: object
-              additionalProperties: false
-              properties:
-                message:
-                  required: true
-                  type: string
-                  maxLength: 3
       responses:
         '200':
           description: A paged array of pets
+          headers:
+            x-next:
+              description: A link to the next page of responses
+              schema:
+                type: string
           content:
             application/json:
               schema:
@@ -54,7 +47,7 @@ paths:
                 $ref: "#/components/schemas/Error"
     post:
       summary: Create a pet
-      operationId: App\Http\Controllers\PetsController@store
+      operationId: Mdwheele\OpenApi\Tests\Controllers\PetsController@store
       tags:
         - pets
       responses:
@@ -69,7 +62,7 @@ paths:
   /pets/{petId}:
     get:
       summary: Info for a specific pet
-      operationId: App\Http\Controllers\PetsController@show
+      operationId: Mdwheele\OpenApi\Tests\Controllers\PetsController@show
       tags:
         - pets
       parameters:
@@ -79,12 +72,6 @@ paths:
           description: The id of the pet to retrieve
           schema:
             type: string
-        - name: turtle
-          in: cookie
-          required: true
-          schema:
-            type: string
-            pattern: "^(box|snapper)$"
       responses:
         '200':
           description: Expected response to a valid request
@@ -101,7 +88,18 @@ paths:
 components:
   schemas:
     Pet:
-      $ref: "./components/schemas/Pet.yaml"
+      type: object
+      required:
+        - id
+        - name
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        tag:
+          type: string
     Pets:
       type: array
       items:
@@ -109,9 +107,11 @@ components:
     Error:
       type: object
       required:
+        - code
         - message
       properties:
+        code:
+          type: integer
+          format: int32
         message:
-          type: string
-        detail:
           type: string
