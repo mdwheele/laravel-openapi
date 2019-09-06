@@ -1,0 +1,8 @@
+version: '3'
+
+services:
+  php:
+    volumes:
+      - ${HOME}:/home/${USER_USERNAME}
+      - ${GPG_AGENT_SOCKET}:/home/${USER_USERNAME}/.gnupg/S.gpg-agent
+      - ${GPG_SSH_SOCKET}:/home/${USER_USERNAME}/.gnupg/S.gpg-agent.ssh
