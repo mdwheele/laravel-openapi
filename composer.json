@@ -1,0 +1,50 @@
+{
+    "name": "mdwheele/laravel-openapi",
+    "description": "",
+    "keywords": [
+        "swagger",
+        "openapi",
+        "laravel"
+    ],
+    "homepage": "https://github.com/mdwheele/laravel-openapi",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Dustin Wheeler",
+            "email": "mdwheele@gmail.com",
+            "homepage": "https://mdwheele.github.io",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^7.3"
+    },
+    "require-dev": {
+        "larapack/dd": "^1.0",
+        "phpunit/phpunit": "^8.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Mdwheele\\OpenApi\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Mdwheele\\OpenApi\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Mdwheele\\OpenApi\\OpenApiServiceProvider"
+            ]
+        }
+    }
+}
