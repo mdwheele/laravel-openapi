@@ -1,8 +1,8 @@
 # Very short description of the package
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/mdwheele/laravel-openapi.svg?style=flat-square)](https://packagist.org/packages/mdwheele/:package_name)
-[![Build Status](https://img.shields.io/travis/mdwheele/laravel-openapi/master.svg?style=flat-square)](https://travis-ci.org/mdwheele/:package_name)
-[![Total Downloads](https://img.shields.io/packagist/dt/mdwheele/laravel-openapi.svg?style=flat-square)](https://packagist.org/packages/mdwheele/:package_name)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/mdwheele/laravel-openapi.svg?style=flat-square)](https://packagist.org/packages/mdwheele/laravel-openapi)
+[![Build Status](https://img.shields.io/travis/mdwheele/laravel-openapi/master.svg?style=flat-square)](https://travis-ci.org/mdwheele/laravel-openapi)
+[![Total Downloads](https://img.shields.io/packagist/dt/mdwheele/laravel-openapi.svg?style=flat-square)](https://packagist.org/packages/mdwheele/laravel-openapi)
 
 
 This is where your description should go. Try and limit it to a paragraph or two. Consider adding a small example.
