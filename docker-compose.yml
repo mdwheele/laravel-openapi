@@ -11,7 +11,7 @@ services:
         USER_USERNAME: ${USER_USERNAME:-developer}
         USER_UID: ${USER_UID:-1000}
         USER_GID: ${USER_GID:-1000}
-    image: signal:dev
+    image: laravel-openapi:dev
     environment:
       USER_USERNAME: ${USER_USERNAME:-vscode}
       USER_UID: ${USER_UID:-1000}
