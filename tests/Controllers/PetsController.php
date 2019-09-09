@@ -4,7 +4,6 @@ namespace Mdwheele\OpenApi\Tests\Controllers;
 
 class PetsController extends Controller
 {
-
     public function index()
     {
         return [
@@ -21,11 +20,14 @@ class PetsController extends Controller
 
     public function store()
     {
-        return request();
+        return request()->json();
     }
 
     public function show($petId)
     {
-        return request();
+        return [
+            'id' => 1,
+            'name' => 'Dog'
+        ];
     }
 }

@@ -2,7 +2,6 @@
 
 namespace Mdwheele\OpenApi\Tests;
 
-use Mdwheele\OpenApi\OpenApiServiceProvider;
 use Orchestra\Testbench\TestCase;
 
 class LightsTest extends TestCase
