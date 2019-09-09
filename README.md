@@ -7,7 +7,7 @@
 
 This package allows you to create a single specification for your Laravel application that will register routes and validate all requests your API receives as well as all responses that you generate.
 
-The OpenAPI development experience in PHP feels disjoint... 
+The [OpenAPI](https://github.com/OAI/OpenAPI-Specification) development experience in PHP feels disjoint... 
 
 * I can update my OpenAPI specification with no impact on the actual implementation, leaving room for drift. 
 * I can try and glue them together with process and custom tooling, but I feel like I'm gluing 40,000 pieces of the internet together and it's different for each project
