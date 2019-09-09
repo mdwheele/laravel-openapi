@@ -1,8 +1,9 @@
 # OpenAPI-driven routing and validation for Laravel
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/mdwheele/laravel-openapi.svg?style=flat-square)](https://packagist.org/packages/mdwheele/laravel-openapi)
-[![CircleCI](https://circleci.com/gh/mdwheele/laravel-openapi.svg?style=svg)](https://circleci.com/gh/mdwheele/laravel-openapi)
+[![Latest Version on Packagist](https://img.shields.io/packagist/vpre/mdwheele/laravel-openapi.svg?style=flat-square)](https://packagist.org/packages/mdwheele/laravel-openapi)
+![PHP from Packagist](https://img.shields.io/packagist/php-v/mdwheele/laravel-openapi)
 [![Total Downloads](https://img.shields.io/packagist/dt/mdwheele/laravel-openapi.svg?style=flat-square)](https://packagist.org/packages/mdwheele/laravel-openapi)
+[![CircleCI](https://circleci.com/gh/mdwheele/laravel-openapi.svg?style=svg)](https://circleci.com/gh/mdwheele/laravel-openapi)
 
 
 This package allows you to create a single specification for your Laravel application that will register routes and validate all requests your API receives as well as all responses that you generate.
