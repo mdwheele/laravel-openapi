@@ -160,7 +160,7 @@ class ValidateOpenApi
         // for the media type and does not really take into account media ranges
         // at all. We'll fix this later.
         if (!array_key_exists($contentType, $responseObject->content)) {
-            throw new OpenApiException('Request did not match any specified media type for request body.');
+            throw new OpenApiException('Response did not match any specified media type.');
         }
 
         $jsonSchema = $responseObject->content[$contentType]->schema;
@@ -177,7 +177,7 @@ class ValidateOpenApi
         $validator->coerce($body, $jsonSchema->getSerializableData());
 
         if ($validator->isValid() !== true) {
-            throw new OpenApiException("Request body did not match provided JSON schema.");
+            throw new OpenApiException("Response did not match provided JSON schema.");
         }
     }
 }
