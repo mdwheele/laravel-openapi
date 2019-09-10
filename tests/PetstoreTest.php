@@ -40,14 +40,13 @@ class PetstoreTest extends TestCase
     }
 
     /** @test */
-    public function if_pets_have_extra_appendages_openapi_cares()
+    public function throws_exception_if_required_object_property_not_found()
     {
         $this->expectExceptionMessage('Response did not match provided JSON schema.');
 
         $this->stub(PetsController::class, 'show', [
             'id' => 1,
-            'name' => 'Cow',
-            'legs' => 10
+            // 'name' => 'Cow',
         ]);
 
         $this->get('api/pets/1');

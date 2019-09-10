@@ -100,10 +100,6 @@ components:
           type: string
         tag:
           type: string
-        legs:
-          type: integer
-          minimum: 0
-          maximum: 4
     Pets:
       type: array
       items:
