@@ -2,22 +2,14 @@
 
 namespace Mdwheele\OpenApi\Tests;
 
-use Exception;
-use Illuminate\Http\Response;
-use Mdwheele\OpenApi\OpenApiServiceProvider;
+use Mdwheele\OpenApi\Exceptions\OpenApiException;
 use Mdwheele\OpenApi\Tests\Controllers\PetsController;
-use Mockery;
 
 class PetstoreTest extends TestCase
 {
-
-    protected function getPackageProviders($app)
+    public function getSpecification()
     {
-        $app['config']->set('openapi.spec', __DIR__ . '/openapis/petstore/openapi.yaml');
-
-        return [
-            OpenApiServiceProvider::class
-        ];
+        return 'petstore';
     }
 
     /** @test */
@@ -42,7 +34,7 @@ class PetstoreTest extends TestCase
     /** @test */
     public function throws_exception_if_required_object_property_not_found()
     {
-        $this->expectExceptionMessage('Response did not match provided JSON schema.');
+        $this->expectException(OpenApiException::class);
 
         $this->stub(PetsController::class, 'show', [
             'id' => 1,
@@ -68,7 +60,7 @@ class PetstoreTest extends TestCase
     /** @test */
     public function blow_chunks_if_error_schema_is_malformed()
     {
-        $this->expectExceptionMessage('Response did not match provided JSON schema.');
+        $this->expectException(OpenApiException::class);
 
         $this->stub(PetsController::class, 'index', [
             'broken' => 'This response does not comply with components/schemas/Error.'

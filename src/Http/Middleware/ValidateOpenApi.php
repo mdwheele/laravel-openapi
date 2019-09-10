@@ -27,16 +27,16 @@ class ValidateOpenApi
         /** @var Operation $operation */
         $operation = $request->route()->action['openapi.operation'];
 
-        $this->validateParameters($request, $operation->parameters);
+        $this->validateParameters($request, $operation);
 
         if ($operation->requestBody !== null) {
-            $this->validateBody($request, $operation->requestBody);
+            $this->validateBody($request, $operation);
         }
 
         $response = $next($request);
 
         if ($operation->responses !== null) {
-            $this->validateResponse($response, $operation->responses);
+            $this->validateResponse($response, $operation);
         }
 
         return $response;
@@ -44,12 +44,13 @@ class ValidateOpenApi
 
     /**
      * @param Request $request
-     * @param Parameter[] $parameters
+     * @param Operation $operation
      * @throws OpenApiException
      */
-    private function validateParameters($request, array $parameters)
+    private function validateParameters($request, Operation $operation)
     {
         $route = $request->route();
+        $parameters = $operation->parameters;
 
         foreach ($parameters as $parameter) {
             // Verify presence, if required.
@@ -94,13 +95,14 @@ class ValidateOpenApi
 
     /**
      * @param Request $request
-     * @param RequestBody $requestBody
+     * @param Operation $operation
      * @throws OpenApiException
      */
-    private function validateBody($request, RequestBody $requestBody)
+    private function validateBody($request, Operation $operation)
     {
         $contentType = $request->header('Content-Type');
         $body = $request->getContent();
+        $requestBody = $operation->requestBody;
 
         if ($requestBody->required === true) {
             if (empty($body)) {
@@ -124,7 +126,7 @@ class ValidateOpenApi
 
         if ($jsonSchema->type === 'object' || $jsonSchema->type === 'array') {
             if ($contentType === 'application/json') {
-                $body = json_decode($body);
+                $body = json_decode($body, true);
             } else {
                 throw new OpenApiException("Unable to map [{$contentType}] to schema type [object].");
             }
@@ -139,13 +141,16 @@ class ValidateOpenApi
 
     /**
      * @param Response $response
-     * @param Responses $responses
+     * @param Operation $operation
      * @throws OpenApiException
      */
-    private function validateResponse($response, Responses $responses)
+    private function validateResponse($response, Operation $operation)
     {
         $contentType = $response->headers->get('Content-Type');
         $body = $response->getContent();
+        $responses = $operation->responses;
+
+        $shortHandler = class_basename($operation->operationId);
 
         // Get matching response object based on status code.
         if ($responses[$response->getStatusCode()] !== null) {
@@ -177,7 +182,10 @@ class ValidateOpenApi
         $validator->coerce($body, $jsonSchema->getSerializableData());
 
         if ($validator->isValid() !== true) {
-            throw new OpenApiException("Response did not match provided JSON schema.");
+            throw OpenApiException::withSchemaErrors(
+                "The response from {$shortHandler} does not match your OpenAPI specification.",
+                $validator->getErrors()
+            );
         }
     }
 }

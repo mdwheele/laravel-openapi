@@ -1,0 +1,56 @@
+openapi: "3.0.0"
+
+info:
+  version: 1.0.0
+  title: Laravel OpenAPI Core Feature-set API Specification
+
+paths:
+  # The package will automatically create a route for each
+  # HTTP verb under this path.
+  /health:
+    get:
+      summary: Service Health
+      description: |
+        This is an example of what an API micro-service status endpoint might
+        look like. For this example, we have an overall indicator of `status`
+        that is either `ok`, `warning` or `critical`. This is a required property
+        of the endpoint.
+
+        Optionally, we also have a log of updates that can be sent by service
+        providers when we're in a `warning` or `critical` status.
+
+        In this example operation, if you return any status other than what's
+        enumerated, you'll fail response validation. If you return any HTTP
+        status code other than 200, you'll fail response validation. If you
+        add any additional proprties to your updates other than `message` and
+        `timestamp`, then you'll fail response validation. This is all handled
+        automatically by the package!
+
+        Check out `CoreFeaturesTest` for happy-path tests and failure scenarios.
+
+      # We use operationId to specify the handler for this request.
+      operationId: Mdwheele\OpenApi\Tests\Controllers\CoreFeaturesController@healthCheck
+      responses:
+        200:
+          description: Health-check for the service.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: ['status']
+                properties:
+                  status:
+                    type: string
+                    enum: ['ok', 'warning', 'critical']
+                  updates:
+                    type: array
+                    items:
+                      type: object
+                      required: ['message', 'timestamp']
+                      additionalProperties: false
+                      properties:
+                        message:
+                          type: string
+                        timestamp:
+                          type: string
+                          format: 'date-time'
