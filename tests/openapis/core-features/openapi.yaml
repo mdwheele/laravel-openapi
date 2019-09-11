@@ -89,7 +89,7 @@ paths:
             enum: ['apples', 'oranges', 'zucchini']
         - name: X-Super-Hero
           description: |
-            X-Super-Hero isn't required. But, if specified, it must be either `superman` or
+            X-Super-Hero isn't required. But, if specified, it must be either `wonder-woman` or
             `batman`. No other super heroes exist... don't @-me.
           in: header
           schema:
