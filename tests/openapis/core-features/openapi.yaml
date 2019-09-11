@@ -54,3 +54,78 @@ paths:
                         timestamp:
                           type: string
                           format: 'date-time'
+  /parameters/{email}:
+    post:
+      summary: Dump headers sent to server.
+      description: |
+        You can specify constraints on various parameters that are sent along
+        with a request. These parameters can be part of the path, in the
+        query-string, in headers or in cookies. These parameters can be required
+        or optional and you can specify schemas to validate them.
+
+        This endpoint is a made-up example of just about every way you can deal
+        with a parameter. The schemas are fairly basic (where used), but just
+        realize, you have the full power of JSON Schema to take advantage of.
+
+      operationId: Mdwheele\OpenApi\Tests\Controllers\CoreFeaturesController@parameters
+      parameters:
+        - name: email
+          description: |
+            In Laravel, this gets passed as an argument to controller method. In
+            our example, we specify that this must be an email address, for some reason.
+          in: path
+          required: true
+          schema:
+            type: string
+            format: email
+        - name: filter
+          description: |
+            You can specify query-string parameters and place constraints on them. In this
+            example, the `filter` query parameter MUST be a string that's either `apples`,
+            `oranges`, or `zucchini`. Anything else fails request validation.
+          in: query
+          schema:
+            type: string
+            enum: ['apples', 'oranges', 'zucchini']
+        - name: X-Super-Hero
+          description: |
+            X-Super-Hero isn't required. But, if specified, it must be either `superman` or
+            `batman`. No other super heroes exist... don't @-me.
+          in: header
+          schema:
+            type: string
+            enum: ['wonder-woman', 'batman']
+        - name: X-Super-Cookie
+          description: |
+            Oh look at us, getting all fancy with our `allOf`. Basically, this means that
+            the value of our `X-Super-Cookie` must be a string that both begins with "cookie"
+            and ends with "monster". Fancy.
+
+            Could we have used a single pattern? Sure. But then we wouldn't be as fancy.
+          in: cookie
+          schema:
+            allOf:
+              - type: string
+                pattern: "^cookie.*"
+              - type: string
+                pattern: ".*monster$"
+      responses:
+        200:
+          description: A dump of all parameter data sent to the API.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: ['message', 'path', 'query', 'header', 'cookie']
+                properties:
+                  message:
+                    type: string
+                  path:
+                    type: object
+                  query:
+                    type: object
+                  header:
+                    type: object
+                  cookie:
+                    type: object
+
