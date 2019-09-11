@@ -56,7 +56,7 @@ paths:
                           format: 'date-time'
   /parameters/{email}:
     post:
-      summary: Dump headers sent to server.
+      summary: Dump parameter data sent to the API.
       description: |
         You can specify constraints on various parameters that are sent along
         with a request. These parameters can be part of the path, in the
