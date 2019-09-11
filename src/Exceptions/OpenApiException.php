@@ -32,13 +32,13 @@ class OpenApiException extends Exception
                 case 'required':
                     return "The [{$error['property']}] property is missing. It must be included.";
                     break;
-
                 case 'additionalProp':
                     return str_replace('definition', "definition for [{$error['property']}]", $error['message']) . '.';
                     break;
-
+                case 'type':
+                    return $error['message'] . " for property [${error['property']}].";
                 default:
-                    throw new OpenApiException('Unable to generate helpful error message.');
+                    return $error['message'];
             }
         }, $this->errors);
     }
