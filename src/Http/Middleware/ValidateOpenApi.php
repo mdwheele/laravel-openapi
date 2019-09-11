@@ -87,7 +87,10 @@ class ValidateOpenApi
                 }
 
                 if (!$validator->isValid()) {
-                    throw new OpenApiException("Parameter [{$parameter->name}] did not match provided JSON schema.");
+                    throw OpenApiException::withSchemaErrors(
+                        "Parameter [{$parameter->name}] did not match provided JSON schema.",
+                        $validator->getErrors()
+                    );
                 }
             }
         }

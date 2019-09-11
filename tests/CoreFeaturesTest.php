@@ -18,11 +18,24 @@ class CoreFeaturesTest extends TestCase
     {
         $response = $this->get('api/health');
 
-        $response
-            ->assertStatus(200)
-            ->assertJson([
-                'status' => 'ok'
-            ]);
+        $response->assertJson([
+            'status' => 'ok'
+        ]);
+    }
+
+    /** @test */
+    public function different_types_of_parameters_can_be_sent()
+    {
+        $response = $this->call('POST', 'api/parameters/user@example.com?filter=apples',
+            [],                                                                     // Parameters
+            ['X-Super-Cookie' => 'cookie monster'],                                 // Cookies
+            [],                                                                     // Files
+            $this->transformHeadersToServerVars(['X-Super-Hero' => 'wonder-woman']) // Server + Headers
+        );
+
+        $response->assertJson([
+            'message' => "Hey user@example.com! Looks like you're filtering by apples and love wonder-woman."
+        ]);
     }
 
     /** @test */
