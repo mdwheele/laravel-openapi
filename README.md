@@ -64,6 +64,12 @@ Any of the following circumstances will trigger an `OpenApiException` that will 
 - If you return anything other than `application/json`, you'll get a similar exception explaining the acceptable media types that can be returned.
 - If you return JavaScript objects that use a `string`-based `id` (e.g. `id: 'foo'`), you'll be told that the response your controller generated does not match the specified JSON Schema. Additionally, you'll be given some pointers as to what, specifically, was wrong and some hints on how to resolve.
 
+## Roadmap
+
+- [ ] Continue to improve error messages to be as helpful as possible. In the mean time, use the package and if it's ever unclear how to respond to an error message, [send it in](https://github.com/mdwheele/laravel-openapi/issues/new) as a bug.
+- [ ] Add additional specification examples to guarantee we're casting a wide net to accommodate as many use-cases as possible.
+- [ ] Improve framework integration error handling.  
+- [ ] Improve documentation.
 
 ## Installation
 
