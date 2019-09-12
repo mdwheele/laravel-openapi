@@ -39,6 +39,19 @@ class CoreFeaturesTest extends TestCase
     }
 
     /** @test */
+    public function can_validate_request_bodies()
+    {
+        $response = $this->json('POST', 'api/requests', [
+            'email' => 'user@example.com',
+            'message' => 'Hello!'
+        ]);
+
+        $response->assertJson([
+            'email' => 'user@example.com'
+        ]);
+    }
+
+    /** @test */
     public function health_status_updates_have_message_and_rfc3339_timestamp()
     {
         $this->stub(CoreFeaturesController::class, 'healthCheck', [
@@ -62,6 +75,28 @@ class CoreFeaturesTest extends TestCase
                     ]
                 ]
             ]);
+    }
+
+    /**
+     * @test
+     * @group request-validation
+     */
+    public function invalid_request_bodies_cause_openapi_exception()
+    {
+        $content = 'invalid-email-address';
+
+        $headers = [
+            'CONTENT_LENGTH' => mb_strlen($content, '8bit'),
+            'CONTENT_TYPE' => 'text/plain',
+            'Accept' => 'application/json',
+        ];
+
+        try {
+            $this->call('POST', 'api/requests', [], [], [], $this->transformHeadersToServerVars($headers), $content);
+        } catch (OpenApiException $exception) {
+            $this->assertSame('Request body did not match provided JSON schema.', $exception->getMessage());
+            $this->assertContains('Invalid email', $exception->getErrors());
+        }
     }
 
     /**

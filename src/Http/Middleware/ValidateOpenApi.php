@@ -111,17 +111,17 @@ class ValidateOpenApi
             if (empty($body)) {
                 throw new OpenApiException('Request body required.');
             }
-
-            // This isn't good enough for production. This is an *exact* match
-            // for the media type and does not really take into account media ranges
-            // at all. We'll fix this later.
-            if (!array_key_exists($contentType, $requestBody->content) ) {
-                throw new OpenApiException('Request did not match any specified media type for request body.');
-            }
         }
 
         if (empty($request->getContent())) {
             return;
+        }
+
+        // This isn't good enough for production. This is an *exact* match
+        // for the media type and does not really take into account media ranges
+        // at all. We'll fix this later.
+        if (!array_key_exists($contentType, $requestBody->content) ) {
+            throw new OpenApiException('Request did not match any specified media type for request body.');
         }
 
         $jsonSchema = $requestBody->content[$contentType]->schema;
@@ -129,7 +129,7 @@ class ValidateOpenApi
 
         if ($jsonSchema->type === 'object' || $jsonSchema->type === 'array') {
             if ($contentType === 'application/json') {
-                $body = json_decode($body, true);
+                $body = json_decode($body);
             } else {
                 throw new OpenApiException("Unable to map [{$contentType}] to schema type [object].");
             }
@@ -138,7 +138,10 @@ class ValidateOpenApi
         $validator->coerce($body, $jsonSchema->getSerializableData());
 
         if ($validator->isValid() !== true) {
-            throw new OpenApiException("Request body did not match provided JSON schema.");
+            throw OpenApiException::withSchemaErrors(
+                "Request body did not match provided JSON schema.",
+                $validator->getErrors()
+            );
         }
     }
 

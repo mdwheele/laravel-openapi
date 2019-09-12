@@ -32,4 +32,9 @@ class CoreFeaturesController extends Controller
             'cookie' => $request->cookies->all()
         ];
     }
+
+    public function requests(Request $request)
+    {
+        return $request;
+    }
 }
