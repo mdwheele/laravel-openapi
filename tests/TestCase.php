@@ -15,7 +15,7 @@ class TestCase extends \Orchestra\Testbench\TestCase
 
     protected function getPackageProviders($app)
     {
-        $app['config']->set('openapi.spec', __DIR__ . "/openapis/{$this->getSpecification()}/openapi.yaml");
+        $app['config']->set('openapi.path', __DIR__ . "/openapis/{$this->getSpecification()}/openapi.yaml");
 
         return [
             OpenApiServiceProvider::class

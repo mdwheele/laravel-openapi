@@ -22,14 +22,19 @@ class OpenApiServiceProvider extends ServiceProvider
 
     public function register()
     {
-        $this->openapi = Reader::readFromYamlFile(config('openapi.spec'));
+        $this->openapi = Reader::readFromYamlFile(config('openapi.path'));
         $this->app->instance(OpenApi::class, $this->openapi);
+
+        $this->mergeConfigFrom(__DIR__.'/../config/openapi.php', 'openapi');
     }
 
     public function boot()
     {
-        $this
-            ->registerApiRoutes();
+        $this->publishes([
+            __DIR__.'/../config/openapi.php' => config_path('openapi.php'),
+        ]);
+
+        $this->registerApiRoutes();
     }
 
     private function registerApiRoutes()

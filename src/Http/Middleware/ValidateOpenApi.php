@@ -35,7 +35,7 @@ class ValidateOpenApi
 
         $response = $next($request);
 
-        if ($operation->responses !== null) {
+        if (config('openapi.validate_responses') === true && $operation->responses !== null) {
             $this->validateResponse($response, $operation);
         }
 
