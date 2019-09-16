@@ -148,7 +148,7 @@ Any of the following circumstances will trigger an `OpenApiException` that will 
 
 ## Caution!
 
-**Opinion Alert** *... and feel free to take with grain of salt.*
+:mute: **Opinion Alert** *... and feel free to take with grain of salt.*
 
 Just as over-specifying tests can leave a bad taste in your mouth, over-specifying your API can lead you down a path of resistance and analysis paralysis. When you're using JSON Schema to specify request bodies, parameters and responses, **take care** to understand that you are specifying valid **HTTP messages**, not necessarily every business rule in your system. 
 
